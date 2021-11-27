@@ -1,0 +1,958 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Created with Hot Potatoes by Half-Baked Software, registered to nathalie rihet.">
+   <meta name="GENERATOR" content="Mozilla/4.5 [fr] (Win98; I) [Netscape]">
+   <title>Quizz de 5&deg;</title>
+</head>
+<body text="#000000" bgcolor="#FFFFCC" onload="StartUp()">
+<script language="JavaScript"><!--
+var min
+var sec
+var ShowReadingAgain = 'Recommencer la lecture'
+var platform = 'win'
+if (navigator.appVersion.indexOf('Mac') != -1) {platform = 'mac'}
+macrightchar = 'TB'
+macwrongchar = 'Oh!'
+winrightchar = 'TB'
+winwrongchar = 'Oh!'
+
+DoneStatus = new Array();
+DoneStatus[1] = '0';
+DoneStatus[2] = '0';
+DoneStatus[3] = '0';
+DoneStatus[4] = '0';
+DoneStatus[5] = '0';
+DoneStatus[6] = '0';
+DoneStatus[7] = '0';
+DoneStatus[8] = '0';
+DoneStatus[9] = '0';
+DoneStatus[10] = '0';
+DoneStatus[11] = '0';
+
+
+Responses = new Array();
+Responses[1] = new Array();
+Responses[1][1]='';
+Responses[1][2]='';
+Responses[2] = new Array();
+Responses[2][1]='';
+Responses[2][2]='';
+Responses[3] = new Array();
+Responses[3][1]='';
+Responses[3][2]='';
+Responses[4] = new Array();
+Responses[4][1]='';
+Responses[4][2]='';
+Responses[4][3]='';
+Responses[4][4]='';
+Responses[5] = new Array();
+Responses[5][1]='';
+Responses[5][2]='';
+Responses[5][3]='';
+Responses[5][4]='';
+Responses[6] = new Array();
+Responses[6][1]='';
+Responses[6][2]='';
+Responses[7] = new Array();
+Responses[7][1]='';
+Responses[7][2]='';
+Responses[7][3]='';
+Responses[7][4]='';
+Responses[8] = new Array();
+Responses[8][1]='';
+Responses[8][2]='';
+Responses[8][3]='';
+Responses[8][4]='';
+Responses[9] = new Array();
+Responses[9][1]='';
+Responses[9][2]='';
+Responses[10] = new Array();
+Responses[10][1]='';
+Responses[10][2]='';
+Responses[11] = new Array();
+Responses[11][1]='';
+Responses[11][2]='';
+Responses[11][3]='';
+Responses[11][4]='';
+
+
+IndicatorName = new Array();
+
+
+TriedStatus = new Array();
+var Nbquestion = 11;
+var Score = 0;
+var Tries = 0;
+var Percent = 0;
+var YourScore = 'Voici ton résultat:';
+var DefaultRight = 'C\'est exact!';
+var DefaultWrong = 'Désolé. Essaie de nouveau.';
+var CorrectFirstTime = 'Bonnes réponses dès la première fois: ';
+var CFT = 0;
+
+function DownTime(mm,ss){
+	min = mm;
+	sec = ss;
+
+	if (sec==0) {
+		sec = 60;
+		min--;
+	}
+
+	sec--;
+	if (sec<10){
+		sec="0" + sec;
+	}
+
+	if (parent.TimerFrame.document.TimerForm.face == null){
+		return;
+	}
+
+	parent.TimerFrame.document.TimerForm.face.value= min+":"+sec;
+
+	if ((min==0) && (sec==0)){
+		TimesUp()
+	}
+	else{
+		setTimeout('DownTime(min,sec)',1000)
+	}
+}
+
+function StartUp(){
+	for (var i=1; i<DoneStatus.length; i++){
+		TriedStatus[i] = 0;
+	}
+	if (parent.TimerFrame != null) {
+		Stuff='<INPUT TYPE="Button"';
+		Stuff+=' NAME="StartIt" VALUE="Commencer la lecture" onClick="parent.CodeFrame.StartReading()">';
+		WriteToReading('Afficher la lecture');
+		WriteToTimer(Stuff);
+	}
+}
+
+function StartReading(){
+	Stuff='Temps restant:';
+	Stuff+=' <INPUT TYPE="text" NAME="face" SIZE="6" VALUE="1:00">';
+	WriteToTimer(Stuff);
+	parent.ReadingFrame.location.href='quizz5r.htm';
+	timeoutID=setTimeout('DownTime(1,0)',1000);
+}
+
+function TimesUp() {
+	if (ShowReadingAgain.length > 0) {
+		Stuff='<INPUT TYPE="Hidden" NAME="ThisAvoidsNavigator3Bug">';
+		Stuff+='<INPUT TYPE="Button" NAME="StartIt" VALUE="Recommencer la lecture" onClick="parent.CodeFrame.StartReading()">';
+		WriteToTimer(Stuff);
+	}
+	WriteToReading('Votre temps est écoulé!');
+}
+
+function WriteToReading(Stuff) {
+	parent.ReadingFrame.document.clear();
+	parent.ReadingFrame.document.open();
+	parent.ReadingFrame.document.writeln ("<HTML>");
+	parent.ReadingFrame.document.writeln ("<BODY  BACKGROUND=\"\" BGCOLOR=\"#FFFFCC\" TEXT=\"#000000\">");
+	parent.ReadingFrame.document.writeln ("<CENTER><TABLE BORDER=\"0\" CELLPADDING=\"5\" CELLSPACING=\"1\" WIDTH=\"85%\">");
+	parent.ReadingFrame.document.writeln ("<TR><TD BGCOLOR=\"#CCCCFF\" ALIGN=\"CENTER\">") 
+	parent.ReadingFrame.document.writeln ("<FONT FACE=\"Geneva,Arial\" SIZE=\"-1\">");
+	parent.ReadingFrame.document.writeln (Stuff);
+	parent.ReadingFrame.document.writeln ("</FONT></TD></TR></TABLE></CENTER></BODY></HTML>");
+	parent.ReadingFrame.document.close();
+}
+
+function WriteToTimer(Stuff){
+	parent.TimerFrame.document.clear();
+	parent.TimerFrame.document.open();
+	parent.TimerFrame.document.writeln ("<HTML>");
+	parent.TimerFrame.document.writeln ("<BODY  BACKGROUND=\"\" BGCOLOR=\"#FFFFCC\" TEXT=\"#000000\">");
+	parent.TimerFrame.document.writeln ("<CENTER><TABLE BORDER=\"0\" CELLPADDING=\"5\" CELLSPACING=\"1\" WIDTH=\"85%\">");
+	parent.TimerFrame.document.writeln ("<FORM NAME=\"TimerForm\"><TR><TD BGCOLOR=\"#CCCCFF\" ALIGN=\"CENTER\">") 
+	parent.TimerFrame.document.writeln ("<FONT FACE=\"Geneva,Arial\" SIZE=\"-1\">");
+	parent.TimerFrame.document.writeln (Stuff);
+	parent.TimerFrame.document.writeln ("</FONT></TD></TR></FORM></TABLE></CENTER></BODY></HTML>");
+	parent.TimerFrame.document.close();
+}
+
+if (platform == 'mac') {
+	rightchar = unescape(macrightchar)
+	wrongchar = unescape(macwrongchar)
+}
+else {
+	rightchar = unescape(winrightchar)
+	wrongchar = unescape(winwrongchar)
+}
+
+function CheckAnswer(QNum, AnsNum, Correct) {
+
+	if (Correct == 1) {
+		if (DoneStatus[QNum] != '1'){
+			Tries = Tries + 1;
+			DoneStatus[QNum] = '1';
+			Score = Score + 1;
+			if (TriedStatus[QNum] == 0){
+				CFT++;
+			}
+			var b = eval('document.QuizForm.Q' + QNum + '_' + AnsNum);
+			if (b != null){
+				b.value = rightchar;
+			}
+		}
+
+	Feedback = Responses[QNum][AnsNum];
+	if (Feedback == '') {Feedback = DefaultRight}
+	Percent = Math.floor(Score*100/Tries) + '%';
+	Feedback = Feedback + '<BR>' + YourScore + ' ' + Percent + '.';
+
+
+
+		var i = 0;
+		var AllDone = true;
+		for (i=1; i<DoneStatus.length; i++){
+			if (DoneStatus[i] == '0'){
+				AllDone = false;
+			}
+		}
+		if (AllDone == true){
+			Feedback += '<BR>' + CorrectFirstTime + CFT + '/' + (DoneStatus.length - 1);
+			Feedback += '<BR>';
+		}
+
+	WriteFeedback(Feedback);
+	}
+
+ 	else {
+		if (DoneStatus[QNum] != '1'){
+			Tries = Tries + 1;
+			var b = eval('document.QuizForm.Q' + QNum + '_' + AnsNum);
+			if (b != null){
+				b.value = wrongchar;
+			}
+		}
+
+		Feedback = Responses[QNum][AnsNum];
+		if (Feedback == '') {Feedback = DefaultWrong}
+		WriteFeedback(Feedback);
+	}
+	TriedStatus[QNum] = 1;
+}
+
+function WriteFeedback(Feedback) {
+	parent.FeedbackFrame.document.clear();
+	parent.FeedbackFrame.document.open();
+	parent.FeedbackFrame.document.writeln ("<HTML>");
+	parent.FeedbackFrame.document.writeln ("<BODY  BACKGROUND=\"\" BGCOLOR=\"#FFFFCC\" TEXT=\"#000000\">");
+	parent.FeedbackFrame.document.writeln ("<CENTER><TABLE BORDER=\"0\" CELLPADDING=\"5\" CELLSPACING=\"1\" WIDTH=\"85%\">");
+	parent.FeedbackFrame.document.writeln ("<TR><TD BGCOLOR=\"#CCCCFF\" ALIGN=\"CENTER\">") 
+	parent.FeedbackFrame.document.writeln ("<FONT FACE=\"Geneva,Arial\" SIZE=\"-1\">");
+	parent.FeedbackFrame.document.writeln (Feedback);
+	parent.FeedbackFrame.document.writeln ("</FONT></TD></TR></TABLE></CENTER></BODY></HTML>");
+	parent.FeedbackFrame.document.close();
+}
+nomd="Inconnu";prenomd="Inconnu";classed="Inconnue";
+function saisie(input1,input2,input3)
+{
+  if (input1.nom.value=='')
+    alert("Veuillez donner votre nom.")
+  else
+    nomd=input1.nom.value;window.location.hash="q1";
+  if (input2.prenom.value=='')
+    alert("Veuillez donner votre prénom.")
+  else
+    prenomd=input2.prenom.value;window.location.hash="q2";
+  if (input3.classe.value=='')
+    alert("Veuillez choisir votre classe.")
+  else
+    classed=input3.classe.value;window.location.hash="q3";
+}
+
+function bilan()
+{checkit=window.open("","checkit","scrollbars=no,width=360,height=180");
+checkit.document.clear();
+checkit.document.writeln ("<html>");
+checkit.document.writeln ("<head><title>Résultats</title>");
+checkit.document.writeln ("</head>"); 
+checkit.document.writeln ("<body bgcolor = FFFFFF >");
+checkit.document.writeln ("<bgsound src='file:///F:\web\atomes\son\DRUMROLL.WAV'>");
+checkit.document.writeln ("<p>nom : " + nomd + "  //  prénom : "+ prenomd + "  //  classe :5° "+classed +"</p>");
+checkit.document.writeln ("<p>Ta note est : "+ Math.round(CFT/(DoneStatus.length - 1)*200)/10+" / 20 </p>");
+checkit.document.writeln ("<p>"+ CorrectFirstTime + CFT + ' / ' + (DoneStatus.length - 1)+"</p>");
+checkit.document.writeln ("<form><hr>");
+checkit.document.writeln ("<center><input type=button value=Fermer onClick='self.close()'></center>");
+checkit.document.writeln ("</form></body>");
+checkit.document.writeln ("</html>");
+checkit.document.close();
+checkit.focus();
+}
+
+// --></script>
+<TBODY>
+<br>&nbsp;
+<center><table BORDER=0 CELLPADDING=5 WIDTH="100%" >
+<tr>
+<td ALIGN=CENTER><b><font face="Geneva,Arial"><font color="#6666FF"><font size=+3>Quizz
+de 5&deg;</font></font></font></b></td>
+</tr>
+
+<tr>
+<td ALIGN=CENTER BGCOLOR="#CCCCFF"><form 
+        name="QuizForm">
+<table BORDER=0 WIDTH="95%" >
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=+1>1</font></font></td>
+
+<td VALIGN=TOP COLSPAN="3" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1><b><font color="#000000">L'eau
+naturelle</font></b> renferme de nombreux constituants qui lui donnent,
+selon leur nature et leur proportion, un aspect, un go&ucirc;t particulier.</font></font>
+<table BORDER=0 WIDTH="100%" >
+<tr>
+<td><input type="text" size="3"
+                            name="Q1_1" value=" "></td>
+
+<td><input type="button" value=" A "
+                            onclick="CheckAnswer(1,1,1)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>c'est un m&eacute;lange&nbsp;</font></font></td>
+
+<td>&nbsp;</td>
+
+<td><input type="text" size="3"
+                            name="Q1_2" value=" "></td>
+
+<td><input type="button" value=" B "
+                            onclick="CheckAnswer(1,2,0)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>ce n'est pas un m&eacute;lange</font></font></td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=+1>2</font></font></td>
+
+<td VALIGN=TOP COLSPAN="3" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>Un
+m&eacute;lange dont les constituants dans le liquide sont <b>visibles</b>
+est dit</font></font>
+<table BORDER=0 >
+<tr>
+<td><input type="text" size="3"
+                            name="Q2_1" value=" "></td>
+
+<td><input type="button" value=" A "
+                            onclick="CheckAnswer(2,1,1)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>h&eacute;t&eacute;rog&egrave;ne</font></font></td>
+
+<td>&nbsp;</td>
+
+<td><input type="text" size="3"
+                            name="Q2_2" value=" "></td>
+
+<td><input type="button" value=" B "
+                            onclick="CheckAnswer(2,2,0)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>homog&egrave;ne</font></font></td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=+1>3</font></font></td>
+
+<td VALIGN=TOP COLSPAN="3" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>Un
+m&eacute;lange dont les constituants dans le liquide sont <b>invisibles</b>
+est dit</font></font>
+<table BORDER=0 >
+<tr>
+<td><input type="text" size="3"
+                            name="Q3_1" value=" "></td>
+
+<td><input type="button" value=" A "
+                            onclick="CheckAnswer(3,1,0)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>h&eacute;t&eacute;rog&egrave;ne</font></font></td>
+
+<td>&nbsp;</td>
+
+<td><input type="text" size="3"
+                            name="Q3_2" value=" "></td>
+
+<td><input type="button" value=" B "
+                            onclick="CheckAnswer(3,2,1)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>homog&egrave;ne</font></font></td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=+1>4</font></font></td>
+
+<td VALIGN=TOP COLSPAN="3" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>Quand
+un m&eacute;lange h&eacute;t&eacute;rog&egrave;ne comme de l'eau boueuse
+reste au <b>repos</b>, les particules en suspension tombent au fond et
+la solution devient limpide.</font></font>
+<br><font face="Geneva,Arial"><font size=-1>Cette technique de s&eacute;paration
+se nomme</font></font>
+<table BORDER=0 >
+<tr>
+<td><img SRC="../images/eval/DECANT.gif" NOSAVE height=127 width=141></td>
+
+<td>
+<table BORDER=0 >
+<tr>
+<td><input type="text"
+                                    size="3" name="Q4_1"
+                                    value=" "></td>
+
+<td><input type="button"
+                                    value=" A "
+                                    onclick="CheckAnswer(4,1,0)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>la d&eacute;position</font></font></td>
+</tr>
+
+<tr>
+<td><input type="text"
+                                    size="3" name="Q4_2"
+                                    value=" "></td>
+
+<td><input type="button"
+                                    value=" B "
+                                    onclick="CheckAnswer(4,2,0)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>la red&eacute;position</font></font></td>
+</tr>
+
+<tr>
+<td><input type="text"
+                                    size="3" name="Q4_3"
+                                    value=" "></td>
+
+<td><input type="button"
+                                    value=" C "
+                                    onclick="CheckAnswer(4,3,1)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>la d&eacute;cantation</font></font></td>
+</tr>
+
+<tr>
+<td><input type="text"
+                                    size="3" name="Q4_4"
+                                    value=" "></td>
+
+<td><input type="button"
+                                    value=" D "
+                                    onclick="CheckAnswer(4,4,0)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>la filtration</font></font></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=+1>5</font></font></td>
+
+<td VALIGN=TOP COLSPAN="3" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>Quand
+un m&eacute;lange h&eacute;t&eacute;rog&egrave;ne comme du jus d'orange
+avec sa pulpe tourne tr&egrave;s vite dans un <b>appareil qui met en rotation
+des tubes &agrave; essais</b>, les particules de pulpe en suspension sont
+projet&eacute;es au fond des tubes et la solution devient limpide.</font></font>
+<br><font face="Geneva,Arial"><font size=-1>Cette technique de s&eacute;paration
+se nomme</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q5_1" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" A "
+                    onclick="CheckAnswer(5,1,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>l'essorage</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q5_2" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" B "
+                    onclick="CheckAnswer(5,2,1)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>la
+centrifugation</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q5_3" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" C "
+                    onclick="CheckAnswer(5,3,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>la
+rotation</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q5_4" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" D "
+                    onclick="CheckAnswer(5,4,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>la
+filtration</font></font></td>
+</tr>
+
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=+1>6</font></font></td>
+
+<td VALIGN=TOP COLSPAN="3" BGCOLOR="#CCCCFF">
+<table BORDER=0 >
+<tr>
+<td><img SRC="../images/eval/FILTRATI.gif" NOSAVE height=204 width=108></td>
+
+<td><font face="Geneva,Arial"><font size=-1>Quand un m&eacute;lange h&eacute;t&eacute;rog&egrave;ne
+comme du jus de citron avec sa pulpe est d&eacute;pos&eacute; dans <b>un
+filtre pos&eacute; sur un entonnoir</b>, les particules de pulpe en suspension
+sont prisonni&egrave;res au fond du filtre et la solution r&eacute;cup&eacute;r&eacute;e
+devient limpide.</font></font>
+<p><font face="Geneva,Arial"><font size=-1>Cette technique de s&eacute;paration
+se nomme</font></font>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<table BORDER=0 >
+<tr>
+<td><input type="text"
+                                    size="3" name="Q6_1"
+                                    value=" "></td>
+
+<td><input type="button"
+                                    value=" A "
+                                    onclick="CheckAnswer(6,1,1)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>la filtration</font></font></td>
+</tr>
+
+<tr>
+<td><input type="text"
+                                    size="3" name="Q6_2"
+                                    value=" "></td>
+
+<td><input type="button"
+                                    value=" B "
+                                    onclick="CheckAnswer(6,2,0)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>le filtrage</font></font></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=+1>7</font></font></td>
+
+<td VALIGN=TOP COLSPAN="3" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>Avec
+cette technique de s&eacute;paration on r&eacute;cup&egrave;re le liquide
+dans un <b>r&eacute;cipient</b> repr&eacute;sent&eacute; (ci-dessus) qui
+se nomme</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q7_1" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" A "
+                    onclick="CheckAnswer(7,1,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>une
+fiole</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q7_2" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" B "
+                    onclick="CheckAnswer(7,2,1)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>un
+erlenmeyer</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q7_3" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" C "
+                    onclick="CheckAnswer(7,3,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>un
+flacon</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q7_4" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" D "
+                    onclick="CheckAnswer(7,4,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>un
+b&eacute;cher</font></font></td>
+</tr>
+
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=+1>8</font></font></td>
+
+<td VALIGN=TOP COLSPAN="3" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>Avec
+cette technique de s&eacute;paration on r&eacute;cup&egrave;re un <b>liquide
+limpide</b> (ci-dessus) qui se nomme</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q8_1" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" A "
+                    onclick="CheckAnswer(8,1,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>une
+solution</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q8_2" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" B "
+                    onclick="CheckAnswer(8,2,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>une
+solution limpide</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q8_3" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" C "
+                    onclick="CheckAnswer(8,3,1)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>un
+filtrat</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q8_4" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" D "
+                    onclick="CheckAnswer(8,4,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>un
+distillat</font></font></td>
+</tr>
+
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=+1>9</font></font></td>
+
+<td VALIGN=TOP COLSPAN="3" BGCOLOR="#CCCCFF">
+<table BORDER=0 >
+<tr>
+<td><font face="Geneva,Arial"><font size=-1>Quand un m&eacute;lange homog&egrave;ne
+comme du jus d'orange sans pulpe est d&eacute;pos&eacute; dans un ballon
+&agrave; fond rond pos&eacute; dans un chauffe-ballon en fonctionnement
+et qu'il est <b>port&eacute; &agrave; &eacute;bullition</b>, on r&eacute;cup&egrave;re
+les <b>vapeurs</b> obtenues dans un appareil qui les <b>refroidit</b> et
+on r&eacute;cup&egrave;re enfin une solution limpide incolore.</font></font>
+<p><font face="Geneva,Arial"><font size=-1>Cette technique de s&eacute;paration
+se nomme</font></font>
+<br>&nbsp;
+<br>&nbsp;
+<br>&nbsp;
+<table BORDER=0 >
+<tr>
+<td><input type="text"
+                                    size="3" name="Q9_1"
+                                    value=" "></td>
+
+<td><input type="button"
+                                    value=" A "
+                                    onclick="CheckAnswer(9,1,0)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>le chauffage - refroidissement</font></font></td>
+</tr>
+
+<tr>
+<td><input type="text"
+                                    size="3" name="Q9_2"
+                                    value=" "></td>
+
+<td><input type="button"
+                                    value=" B "
+                                    onclick="CheckAnswer(9,2,1)"></td>
+
+<td><font face="Geneva,Arial"><font size=-1>la distillation</font></font></td>
+</tr>
+</table>
+</td>
+
+<td><img SRC="../images/eval/DISTILL.gif" NOSAVE height=216 width=186></td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=+1>10</font></font></td>
+
+<td VALIGN=TOP COLSPAN="3" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>Avec
+cette technique de s&eacute;paration on refroidit les vapeurs dans un <b>appareil</b>
+repr&eacute;sent&eacute; (ci-dessus) qui se nomme</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q10_1" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" A "
+                    onclick="CheckAnswer(10,1,1)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>un
+r&eacute;frig&eacute;rant</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q10_2" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" B "
+                    onclick="CheckAnswer(10,2,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>un
+condensateur</font></font></td>
+</tr>
+
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+
+<tr>
+<td ALIGN=RIGHT VALIGN=TOP BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=+1>11</font></font></td>
+
+<td VALIGN=TOP COLSPAN="3" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>Avec
+cette technique de s&eacute;paration on r&eacute;cup&egrave;re un <b>liquide
+limpide </b>(ci-dessus) qui se nomme</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q11_1" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" A "
+                    onclick="CheckAnswer(11,1,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>une
+solution limpide</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q11_2" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" B "
+                    onclick="CheckAnswer(11,2,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>une
+solution&nbsp;</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q11_3" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" C "
+                    onclick="CheckAnswer(11,3,0)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>un
+filtrat</font></font></td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="text" size="3" name="Q11_4" value=" "></td>
+
+<td VALIGN=TOP BGCOLOR="#CCCCFF"><input 
+                    type="button" value=" D "
+                    onclick="CheckAnswer(11,4,1)"></td>
+
+<td WIDTH="100%" BGCOLOR="#CCCCFF"><font face="Geneva,Arial"><font size=-1>un
+distillat</font></font></td>
+</tr>
+
+<tr>
+<td COLSPAN="4">
+<hr height="5"></td>
+</tr>
+</table>
+</form></td>
+</tr>
+
+<tr>
+<td><form method="POST">
+<table BORDER=0 >
+<tr>
+<td><b>NOM :&nbsp;</b><input type="text"
+                    size="20" name="nom" id="Name"></td>
+
+<td>&nbsp;</td>
+
+<td><b>Pr&eacute;nom :&nbsp;</b><input type="text"
+                    size="20" name="prenom" id="Pre"></td>
+</tr>
+
+<tr>
+<td><b>Classe : 5 &deg;&nbsp;</b><input 
+                    type="text" size="2" name="classe" id="Class"><input 
+type="button" value="valider"
+language="JavaScript"
+onclick="saisie(Name.form,Pre.form,Class.form)"></td>
+
+<td>&nbsp;</td>
+</tr>
+</table>
+</form></td>
+</tr>
+
+<tr>
+<td><form name="NavButtons2"><input type="button" value="Résultat"
+            onclick="bilan()"></form></td>
+</tr>
+
+<tr>
+<td><form name="NavButtons2"><input type="button"
+            value="Retour au menu"
+            onclick="parent.location='../menu5.htm#quizz5'"></form></td>
+</tr>
+</table></center>
+
+</body>
+</html>
